@@ -6,7 +6,8 @@ import { LogIn } from 'lucide-react';
 import { loginSchema } from '../../lib/schemas';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Field, Logo } from '../../components/common/ui';
+import { Field } from '../../components/common/ui';
+import AuthShell from '../../components/layout/AuthShell';
 import { z } from 'zod';
 
 type V = z.infer<typeof loginSchema>;
@@ -31,16 +32,14 @@ export default function Login() {
   };
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-10">
-      <Logo className="mb-5 justify-center" />
-      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-3 p-5" noValidate>
-        <h1 className="text-lg font-semibold">Log in</h1>
+    <AuthShell title="Welcome back" subtitle="Log in to manage your profile, availability and blood requests.">
+      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4 p-6" noValidate>
         <Field label="Email" error={errors.email?.message}><input type="email" autoComplete="email" className="input" {...register('email')} /></Field>
         <Field label="Password" error={errors.password?.message}><input type="password" autoComplete="current-password" className="input" {...register('password')} /></Field>
-        <div className="text-right text-xs"><Link to="/forgot-password" className="text-brand hover:underline">Forgot password?</Link></div>
-        <button className="btn btn-primary w-full" disabled={isSubmitting}><LogIn size={15} /> {isSubmitting ? 'Logging in…' : 'Log in'}</button>
-        <p className="text-center text-sm text-muted">New here? <Link to="/register" className="font-medium text-brand">Create an account</Link></p>
+        <div className="text-right text-xs"><Link to="/forgot-password" className="font-semibold text-primary-700 hover:underline">Forgot password?</Link></div>
+        <button className="btn btn-primary w-full" disabled={isSubmitting}><LogIn size={16} /> {isSubmitting ? 'Logging in…' : 'Log in'}</button>
+        <p className="text-center text-sm text-muted">New here? <Link to="/register" className="font-semibold text-primary-700">Create an account</Link></p>
       </form>
-    </div>
+    </AuthShell>
   );
 }

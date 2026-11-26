@@ -6,7 +6,7 @@ import { supabase } from '../../lib/supabase';
 import { useAsync } from '../../hooks/useAsync';
 import { likeEscape } from '../../utils/format';
 import DonorCard from '../../components/common/DonorCard';
-import { Disclaimer, EmptyState, ErrorState, PageHead, Pagination, Spinner } from '../../components/common/ui';
+import { Disclaimer, EmptyState, ErrorState, PageHero, Pagination, Spinner } from '../../components/common/ui';
 import type { PublicDonor } from '../../types';
 
 const KEYS = ['blood_group', 'state', 'city', 'area', 'pin_code', 'availability'] as const;
@@ -44,9 +44,10 @@ export default function Donors() {
   const hasFilters = KEYS.some((k) => current[k]);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
-      <PageHead title="Find blood donors" subtitle="Only donors who agreed to appear in public search are listed." />
-      <form onSubmit={apply} className="card mb-4 grid gap-3 p-3 sm:grid-cols-2 lg:grid-cols-4" role="search">
+    <>
+      <PageHero eyebrow="Donor search" title="Find blood donors" subtitle="Only donors who agreed to appear in public search are listed." />
+      <div className="mx-auto max-w-6xl px-4 py-8">
+      <form onSubmit={apply} className="card mb-6 grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-4" role="search">
         <select className="input" aria-label="Blood group" value={form.blood_group} onChange={set('blood_group')}><option value="">Any blood group</option>{BLOOD_GROUPS.map((g) => <option key={g}>{g}</option>)}</select>
         <select className="input" aria-label="State" value={form.state} onChange={set('state')}><option value="">Any state</option>{STATES.map((s) => <option key={s}>{s}</option>)}</select>
         <input className="input" aria-label="City" placeholder="City" value={form.city} onChange={set('city')} />
@@ -63,11 +64,12 @@ export default function Donors() {
         : error ? <ErrorState message={error} onRetry={reload} />
         : !data?.items.length ? <EmptyState title="No donors found" text={hasFilters ? 'Try removing a filter, searching a nearby city or checking the spelling. You can also post a blood request.' : 'No donors have joined yet. Be the first to register.'} />
         : (<>
-            <p className="mb-2 text-sm text-muted">{data.total} donor{data.total !== 1 ? 's' : ''} found</p>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{data.items.map((d) => <DonorCard key={d.id} d={d} />)}</div>
+            <p className="mb-3 text-sm font-medium text-muted">{data.total} donor{data.total !== 1 ? 's' : ''} found</p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{data.items.map((d) => <DonorCard key={d.id} d={d} />)}</div>
             <Pagination page={page} total={data.total} pageSize={PAGE_SIZE} onChange={setPage} />
           </>)}
-      <Disclaimer className="mt-6" />
-    </div>
+      <Disclaimer className="mt-8" />
+      </div>
+    </>
   );
 }

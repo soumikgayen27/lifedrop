@@ -16,25 +16,25 @@ export default function DonorProfile() {
   }, [id]);
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-6">
-      <Link to="/donors" className="mb-3 inline-flex items-center gap-1 text-sm text-muted hover:text-brand"><ArrowLeft size={14} /> Back to donors</Link>
+    <div className="mx-auto max-w-2xl px-4 py-8">
+      <Link to="/donors" className="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-navy-600 hover:text-primary-700"><ArrowLeft size={14} /> Back to donors</Link>
       {loading ? <PageLoader /> : error ? <ErrorState message={error} onRetry={reload} /> : !data ? (
         <EmptyState title="Donor not found" text="This profile may be private or no longer listed." action={<Link to="/donors" className="btn btn-outline btn-sm">Search donors</Link>} />
       ) : (
-        <div className="card space-y-4 p-5">
+        <div className="card space-y-5 p-6">
           <div className="flex items-center gap-4">
             <Avatar name={data.full_name} src={data.avatar_url} size={64} />
             <div className="flex-1">
-              <h1 className="flex items-center gap-1.5 text-xl font-semibold">{data.full_name}{data.is_verified && <BadgeCheck size={18} className="text-ok" aria-label="Verified by admin" />}</h1>
+              <h1 className="flex items-center gap-1.5 font-display text-xl font-extrabold">{data.full_name}{data.is_verified && <BadgeCheck size={18} className="text-success-600" aria-label="Verified by admin" />}</h1>
               <StatusBadge status={data.availability} />
             </div>
-            <BloodBadge group={data.blood_group} />
+            <BloodBadge group={data.blood_group} size="lg" />
           </div>
           <ul className="space-y-1.5 text-sm">
-            <li className="flex items-center gap-2"><MapPin size={15} className="text-muted" />{data.area ? `${data.area}, ` : ''}{data.city}, {data.state} – {data.pin_code}</li>
-            {data.last_donation_date && <li className="flex items-center gap-2"><CalendarClock size={15} className="text-muted" />Last donated {fmtDate(data.last_donation_date)}</li>}
+            <li className="flex items-center gap-2"><MapPin size={15} className="text-primary-500" />{data.area ? `${data.area}, ` : ''}{data.city}, {data.state} – {data.pin_code}</li>
+            {data.last_donation_date && <li className="flex items-center gap-2"><CalendarClock size={15} className="text-primary-500" />Last donated {fmtDate(data.last_donation_date)}</li>}
           </ul>
-          {data.bio && <p className="rounded-md bg-surface p-3 text-sm">{data.bio}</p>}
+          {data.bio && <p className="rounded-xl bg-navy-50 p-4 text-sm text-navy-700">{data.bio}</p>}
           <ContactPanel donor={data} />
           <Disclaimer />
         </div>

@@ -8,7 +8,8 @@ import { BLOOD_GROUPS, STATES } from '../../lib/constants';
 import { donorRegisterSchema, DonorRegisterValues, userRegisterSchema } from '../../lib/schemas';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { cx, Disclaimer, Field, Logo } from '../../components/common/ui';
+import { cx, Disclaimer, Field } from '../../components/common/ui';
+import AuthShell from '../../components/layout/AuthShell';
 
 export default function Register() {
   const [params] = useSearchParams();
@@ -72,19 +73,17 @@ export default function Register() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      <Logo className="mb-4 justify-center" />
-      <div className="mb-4 grid grid-cols-2 gap-1 rounded-lg border border-line bg-white p-1 text-sm font-medium" role="tablist">
+    <AuthShell wide title={donor ? 'Register as a donor' : 'Create an account'} subtitle="Join the network – it takes a couple of minutes.">
+      <div className="mb-4 grid grid-cols-2 gap-1 rounded-2xl bg-white p-1 text-sm font-semibold shadow-card ring-1 ring-navy-100" role="tablist">
         {([['donor', 'I want to donate'], ['user', 'I need blood (basic account)']] as const).map(([m, l]) => (
-          <button key={m} type="button" role="tab" aria-selected={mode === m} onClick={() => setMode(m)} className={cx('rounded-md px-3 py-2', mode === m ? 'bg-brand text-white' : 'text-muted hover:bg-surface')}>{l}</button>
+          <button key={m} type="button" role="tab" aria-selected={mode === m} onClick={() => setMode(m)} className={cx('rounded-xl px-3 py-2.5 font-display transition-colors', mode === m ? 'bg-primary-600 text-white shadow-glow-sm' : 'text-navy-600 hover:bg-navy-50')}>{l}</button>
         ))}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-5 p-5" noValidate>
-        <h1 className="text-lg font-semibold">{donor ? 'Register as a donor' : 'Create an account'}</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="card space-y-6 p-5 sm:p-6" noValidate>
 
         <fieldset className="grid gap-3 sm:grid-cols-2">
-          <legend className="mb-2 text-sm font-semibold">Personal information</legend>
+          <legend className="mb-3 font-display text-sm font-bold text-navy-900">Personal information</legend>
           <Field label="Full name" error={errors.full_name?.message}><input className="input" autoComplete="name" {...register('full_name')} /></Field>
           <Field label="Email address" error={errors.email?.message}><input type="email" className="input" autoComplete="email" {...register('email')} /></Field>
           <Field label="Mobile number" error={errors.phone?.message} hint="10 digits, starting with 6–9"><input className="input" inputMode="tel" maxLength={10} autoComplete="tel-national" {...register('phone')} /></Field>
@@ -98,14 +97,14 @@ export default function Register() {
 
         {donor && <>
           <fieldset className="grid gap-3 sm:grid-cols-2">
-            <legend className="mb-2 text-sm font-semibold">Blood information</legend>
+            <legend className="mb-3 font-display text-sm font-bold text-navy-900">Blood information</legend>
             <Field label="Blood group" error={errors.blood_group?.message}><select className="input" {...register('blood_group')}><option value="">Select</option>{BLOOD_GROUPS.map((g) => <option key={g}>{g}</option>)}</select></Field>
             <Field label="Last blood donation date (optional)" error={errors.last_donation_date?.message}><input type="date" className="input" {...register('last_donation_date')} /></Field>
             <Field label="Donation availability" error={errors.availability?.message}><select className="input" {...register('availability')}><option value="available">Available</option><option value="unavailable">Temporarily unavailable</option></select></Field>
           </fieldset>
 
           <fieldset className="grid gap-3 sm:grid-cols-2">
-            <legend className="mb-2 text-sm font-semibold">Location</legend>
+            <legend className="mb-3 font-display text-sm font-bold text-navy-900">Location</legend>
             <Field label="State" error={errors.state?.message}><select className="input" {...register('state')}><option value="">Select</option>{STATES.map((s) => <option key={s}>{s}</option>)}</select></Field>
             <Field label="City" error={errors.city?.message}><input className="input" {...register('city')} /></Field>
             <Field label="Area" error={errors.area?.message}><input className="input" {...register('area')} /></Field>
@@ -113,28 +112,28 @@ export default function Register() {
           </fieldset>
 
           <fieldset className="grid gap-3">
-            <legend className="mb-2 text-sm font-semibold">Additional information</legend>
+            <legend className="mb-3 font-display text-sm font-bold text-navy-900">Additional information</legend>
             <Field label="Profile image (optional, max 2 MB)" error={fileErr}><input type="file" accept="image/*" className="input" onChange={(e) => pickFile(e.target.files?.[0] ?? null)} /></Field>
             <Field label="Short introduction (optional)" error={errors.bio?.message}><textarea rows={2} className="input" {...register('bio')} /></Field>
           </fieldset>
         </>}
 
         <fieldset className="space-y-2 text-sm">
-          <legend className="mb-2 text-sm font-semibold">Consent</legend>
+          <legend className="mb-3 font-display text-sm font-bold text-navy-900">Consent</legend>
           {donor && <>
             <label className="flex items-start gap-2"><input type="checkbox" className="mt-1" {...register('show_in_public')} /><span>Show my donor profile in public donor search. <span className="text-muted">(Leave unticked to stay private – you can still receive requests.)</span></span></label>
             <label className="flex items-start gap-2"><input type="checkbox" className="mt-1" {...register('show_phone')} /><span>Also show my mobile number on my public profile.</span></label>
           </>}
-          <label className="flex items-start gap-2"><input type="checkbox" className="mt-1" {...register('agree_terms')} /><span>I agree to the <Link to="/terms" target="_blank" className="text-brand underline">Terms and Conditions</Link>.</span></label>
-          {errors.agree_terms && <p role="alert" className="text-xs text-brand">{errors.agree_terms.message}</p>}
-          <label className="flex items-start gap-2"><input type="checkbox" className="mt-1" {...register('agree_privacy')} /><span>I agree to the <Link to="/privacy" target="_blank" className="text-brand underline">Privacy Policy</Link>.</span></label>
-          {errors.agree_privacy && <p role="alert" className="text-xs text-brand">{errors.agree_privacy.message}</p>}
+          <label className="flex items-start gap-2"><input type="checkbox" className="mt-1" {...register('agree_terms')} /><span>I agree to the <Link to="/terms" target="_blank" className="font-semibold text-primary-700 underline">Terms and Conditions</Link>.</span></label>
+          {errors.agree_terms && <p role="alert" className="text-xs font-medium text-primary-700">{errors.agree_terms.message}</p>}
+          <label className="flex items-start gap-2"><input type="checkbox" className="mt-1" {...register('agree_privacy')} /><span>I agree to the <Link to="/privacy" target="_blank" className="font-semibold text-primary-700 underline">Privacy Policy</Link>.</span></label>
+          {errors.agree_privacy && <p role="alert" className="text-xs font-medium text-primary-700">{errors.agree_privacy.message}</p>}
         </fieldset>
 
         <Disclaimer />
         <button className="btn btn-primary w-full" disabled={isSubmitting}><UserPlus size={15} /> {isSubmitting ? 'Creating account…' : 'Create account'}</button>
-        <p className="text-center text-sm text-muted">Already registered? <Link to="/login" className="font-medium text-brand">Log in</Link></p>
+        <p className="text-center text-sm text-muted">Already registered? <Link to="/login" className="font-semibold text-primary-700">Log in</Link></p>
       </form>
-    </div>
+    </AuthShell>
   );
 }

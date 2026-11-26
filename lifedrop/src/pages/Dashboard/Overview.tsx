@@ -26,11 +26,11 @@ export default function Overview() {
       <div className="grid gap-3 sm:grid-cols-3">
         <Stat label="Blood group" value={donor.loading ? <Spinner size={14} /> : d ? <BloodBadge group={d.blood_group} /> : 'Not a donor'} icon={<Droplets size={18} />} />
         <Stat label="Availability" value={donor.loading ? <Spinner size={14} /> : d ? <StatusBadge status={d.availability} /> : '—'} icon={<HeartPulse size={18} />} />
-        <div className="card p-4"><p className="text-xs text-muted">Profile completion</p><p className="text-xl font-semibold">{pct}%</p><div className="mt-1.5 h-1.5 overflow-hidden rounded bg-surface"><div className="h-full bg-brand" style={{ width: `${pct}%` }} /></div>{pct < 100 && <Link to="/dashboard/profile/edit" className="mt-1.5 block text-xs text-brand">Complete profile</Link>}</div>
+        <div className="card p-5"><p className="text-xs font-medium text-navy-500">Profile completion</p><p className="font-display text-2xl font-extrabold text-navy-900">{pct}%</p><div className="mt-2 h-2 overflow-hidden rounded-full bg-navy-100"><div className="h-full rounded-full bg-gradient-to-r from-primary-500 to-primary-700 transition-all duration-700" style={{ width: `${pct}%` }} /></div>{pct < 100 && <Link to="/dashboard/profile/edit" className="mt-1.5 block text-xs text-brand">Complete profile</Link>}</div>
       </div>
 
       {!donor.loading && !d && (
-        <div className="card mt-3 flex flex-wrap items-center justify-between gap-2 border-brand/30 bg-brand-soft p-4 text-sm">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-primary-50 p-4 text-sm ring-1 ring-primary-200">
           <span>You have a basic account. Add your blood group and location to become a donor.</span>
           <Link to="/dashboard/profile/edit" className="btn btn-primary btn-sm">Become a donor</Link>
         </div>

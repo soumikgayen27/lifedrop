@@ -40,9 +40,9 @@ export default function RequestForm({ initial }: { initial?: BloodRequest }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="card space-y-5 p-5" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="card space-y-6 p-5 sm:p-6" noValidate>
       <fieldset className="grid gap-3 sm:grid-cols-2">
-        <legend className="mb-2 text-sm font-semibold">Patient and blood requirement</legend>
+        <legend className="mb-3 font-display text-sm font-bold text-navy-900">Patient and blood requirement</legend>
         <Field label="Patient name" error={errors.patient_name?.message}><input className="input" {...register('patient_name')} /></Field>
         <Field label="Required blood group" error={errors.blood_group?.message}>
           <select className="input" {...register('blood_group')}><option value="">Select</option>{BLOOD_GROUPS.map((g) => <option key={g}>{g}</option>)}</select>
@@ -55,7 +55,7 @@ export default function RequestForm({ initial }: { initial?: BloodRequest }) {
       </fieldset>
 
       <fieldset className="grid gap-3 sm:grid-cols-2">
-        <legend className="mb-2 text-sm font-semibold">Hospital</legend>
+        <legend className="mb-3 font-display text-sm font-bold text-navy-900">Hospital</legend>
         <Field label="Hospital name" error={errors.hospital_name?.message}><input className="input" {...register('hospital_name')} /></Field>
         <Field label="Hospital address" error={errors.hospital_address?.message}><input className="input" {...register('hospital_address')} /></Field>
         <Field label="State" error={errors.state?.message}><select className="input" {...register('state')}><option value="">Select</option>{STATES.map((s) => <option key={s}>{s}</option>)}</select></Field>
@@ -64,7 +64,7 @@ export default function RequestForm({ initial }: { initial?: BloodRequest }) {
       </fieldset>
 
       <fieldset className="grid gap-3 sm:grid-cols-2">
-        <legend className="mb-2 text-sm font-semibold">Contact</legend>
+        <legend className="mb-3 font-display text-sm font-bold text-navy-900">Contact</legend>
         <Field label="Contact person" error={errors.contact_person?.message}><input className="input" {...register('contact_person')} /></Field>
         <Field label="Contact number" error={errors.contact_number?.message} hint="Shown only to donors you are matched with, never publicly."><input className="input" inputMode="tel" maxLength={10} {...register('contact_number')} /></Field>
         <Field label="Additional message (optional)" error={errors.message?.message} className="sm:col-span-2"><textarea rows={3} className="input" {...register('message')} /></Field>

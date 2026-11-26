@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { contactSchema, ContactValues } from '../../lib/schemas';
 import { api } from '../../services/api';
-import { Field, PageHead } from '../../components/common/ui';
+import { Field, PageHero } from '../../components/common/ui';
 
 const faqs = [
   ['Is LifeDrop a blood bank?', 'No. We connect people with donors. Hospitals and blood banks handle screening and donation.'],
@@ -20,10 +20,11 @@ export default function Contact() {
     catch (e: any) { toast.error(e.message); }
   };
   return (
-    <div className="mx-auto max-w-5xl px-4 py-6">
-      <PageHead title="Contact us" subtitle="Questions, feedback or a listing you want removed? Write to us." />
-      <div className="grid gap-4 md:grid-cols-[1.4fr_1fr]">
-        <form onSubmit={handleSubmit(onSubmit)} className="card space-y-3 p-5" noValidate>
+    <>
+      <PageHero eyebrow="Get in touch" title="Contact us" subtitle="Questions, feedback or a listing you want removed? Write to us." />
+      <div className="mx-auto max-w-5xl px-4 py-10">
+      <div className="grid gap-6 md:grid-cols-[1.4fr_1fr]">
+        <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4 p-6" noValidate>
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Name" error={errors.name?.message}><input className="input" autoComplete="name" {...register('name')} /></Field>
             <Field label="Email" error={errors.email?.message}><input className="input" type="email" autoComplete="email" {...register('email')} /></Field>
@@ -32,21 +33,22 @@ export default function Contact() {
           <Field label="Message" error={errors.message?.message}><textarea rows={5} className="input" {...register('message')} /></Field>
           <button className="btn btn-primary" disabled={isSubmitting}><Send size={15} /> {isSubmitting ? 'Sending…' : 'Send message'}</button>
         </form>
-        <aside className="space-y-3">
-          <div className="card space-y-2 p-4 text-sm">
-            <p className="flex items-center gap-2"><Mail size={15} className="text-brand" /> support@lifedrop.example</p>
-            <p className="flex items-center gap-2"><Phone size={15} className="text-brand" /> +91 00000 00000</p>
-            <p className="flex items-center gap-2"><MapPin size={15} className="text-brand" /> Kolkata, West Bengal, India</p>
+        <aside className="space-y-4">
+          <div className="card space-y-3 p-5 text-sm">
+            <p className="flex items-center gap-2"><Mail size={15} className="text-primary-600" /> support@lifedrop.example</p>
+            <p className="flex items-center gap-2"><Phone size={15} className="text-primary-600" /> +91 00000 00000</p>
+            <p className="flex items-center gap-2"><MapPin size={15} className="text-primary-600" /> Kolkata, West Bengal, India</p>
             <p className="text-xs text-muted">Placeholder details – replace with your own. For medical emergencies call your local emergency number or the hospital directly.</p>
           </div>
-          <div className="card p-4">
-            <h2 className="mb-2 text-sm font-semibold">FAQs</h2>
+          <div className="card p-5">
+            <h2 className="mb-3 font-display text-base font-bold text-navy-900">FAQs</h2>
             <div className="space-y-2">{faqs.map(([q, a]) => (
-              <details key={q} className="rounded-md border border-line px-3 py-2 text-sm"><summary className="cursor-pointer font-medium">{q}</summary><p className="mt-1 text-muted">{a}</p></details>
+              <details key={q} className="rounded-xl border border-navy-100 px-3 py-2.5 text-sm"><summary className="cursor-pointer font-semibold text-navy-900">{q}</summary><p className="mt-1 text-muted">{a}</p></details>
             ))}</div>
           </div>
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

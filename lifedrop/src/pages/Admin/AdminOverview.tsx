@@ -21,13 +21,13 @@ export default function AdminOverview() {
         <Stat label="Pending (open) requests" value={data.pendingRequests} icon={<Clock size={18} />} />
         <Stat label="Completed requests" value={data.completedRequests} icon={<ClipboardCheck size={18} />} />
       </div>
-      <section className="card mt-4 p-4">
-        <h2 className="mb-2 text-sm font-semibold">Requests by blood group</h2>
+      <section className="card mt-5 p-5">
+        <h2 className="mb-3 font-display text-base font-bold text-navy-900">Requests by blood group</h2>
         {data.requestsByGroup.length === 0 ? <p className="py-8 text-center text-sm text-muted">No requests yet.</p> : (
           <div className="h-56"><ResponsiveContainer width="100%" height="100%">
             <BarChart data={[...data.requestsByGroup].sort((a, b) => a.group.localeCompare(b.group))}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} /><XAxis dataKey="group" fontSize={12} /><YAxis allowDecimals={false} fontSize={12} /><Tooltip />
-              <Bar dataKey="total" fill="#D92332" radius={[3, 3, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#dbe5f1" vertical={false} /><XAxis dataKey="group" fontSize={12} /><YAxis allowDecimals={false} fontSize={12} /><Tooltip />
+              <Bar dataKey="total" fill="#dc2626" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer></div>
         )}

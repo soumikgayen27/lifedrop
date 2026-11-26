@@ -34,13 +34,13 @@ export default function Availability() {
       <div className="grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Availability">
         {opts.map(({ v, t, s, i: Icon }) => (
           <button key={v} role="radio" aria-checked={d.availability === v} disabled={busy} onClick={() => set(v)}
-            className={cx('card p-4 text-left transition', d.availability === v ? 'border-brand ring-2 ring-brand/20' : 'hover:bg-surface')}>
+            className={cx('card p-4 text-left transition', d.availability === v ? 'ring-2 ring-primary-500 bg-primary-50/40' : 'hover:bg-navy-50')}>
             <Icon className={d.availability === v ? 'text-brand' : 'text-muted'} size={22} /><p className="mt-2 font-semibold">{t}</p><p className="text-sm text-muted">{s}</p>
           </button>
         ))}
       </div>
       <p className="mt-3 text-sm text-muted">Last donation recorded: {fmtDate(d.last_donation_date)}. <Link to="/dashboard/profile/edit" className="text-brand">Update</Link></p>
-      <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+      <div className="mt-4 rounded-xl bg-warning-50 p-4 text-sm text-warning-700 ring-1 ring-warning-500/20">
         <b>Reminder:</b> LifeDrop does not decide whether you are medically eligible. Only mark yourself available if you believe you can donate; the hospital's medical staff will assess your eligibility.
       </div>
       <Disclaimer className="mt-3" />

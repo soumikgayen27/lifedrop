@@ -22,21 +22,21 @@ export default function RequestDetail() {
   ] : [];
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-6">
-      <Link to="/requests" className="mb-3 inline-flex items-center gap-1 text-sm text-muted hover:text-brand"><ArrowLeft size={14} /> All requests</Link>
+    <div className="mx-auto max-w-2xl px-4 py-8">
+      <Link to="/requests" className="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-navy-600 hover:text-primary-700"><ArrowLeft size={14} /> All requests</Link>
       {loading ? <PageLoader /> : error ? <ErrorState message={error} onRetry={reload} />
         : !data ? <EmptyState title="Request not found" text="It may have been cancelled or removed." />
         : (
-          <div className="card space-y-4 p-5">
+          <div className="card space-y-5 p-6">
             <div className="flex flex-wrap items-center gap-2"><BloodBadge group={data.blood_group} /><PriorityBadge priority={data.priority} /><StatusBadge status={data.status} /></div>
             <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
-              {rows.map(([k, v]) => <div key={k}><dt className="text-xs text-muted">{k}</dt><dd className="font-medium">{v}</dd></div>)}
+              {rows.map(([k, v]) => <div key={k}><dt className="text-xs font-semibold uppercase tracking-wider text-navy-400">{k}</dt><dd className="font-display font-bold text-navy-900">{v}</dd></div>)}
             </dl>
-            {data.message && <p className="rounded-md bg-surface p-3 text-sm">{data.message}</p>}
-            <div className="rounded-md border border-line p-3 text-sm">
-              <p className="font-medium">Can you help?</p>
+            {data.message && <p className="rounded-xl bg-navy-50 p-4 text-sm text-navy-700">{data.message}</p>}
+            <div className="rounded-xl bg-primary-50 p-4 text-sm ring-1 ring-primary-100">
+              <p className="font-display font-bold text-primary-800">Can you help?</p>
               <p className="mt-1 text-muted">Matching available donors receive this request in their LifeDrop notifications, where they can express interest. Contact details are shared only through that process.</p>
-              {!session && <p className="mt-2"><Link to="/register" className="font-medium text-brand">Register as a donor</Link> or <Link to="/login" className="font-medium text-brand">log in</Link> to receive requests.</p>}
+              {!session && <p className="mt-2"><Link to="/register" className="font-semibold text-primary-700">Register as a donor</Link> or <Link to="/login" className="font-semibold text-primary-700">log in</Link> to receive requests.</p>}
             </div>
             <Disclaimer />
           </div>

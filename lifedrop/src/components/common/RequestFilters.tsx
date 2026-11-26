@@ -9,7 +9,7 @@ export default function RequestFilters({ value, onChange, statuses }: { value: R
   const set = (k: keyof ReqFilter) => (e: { target: { value: string } }) => onChange({ ...value, [k]: e.target.value });
   const active = Object.values(value).some(Boolean);
   return (
-    <div className="card mb-4 grid gap-3 p-3 sm:grid-cols-2 lg:grid-cols-5" role="search">
+    <div className="card mb-6 grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-5" role="search">
       <select className="input" aria-label="Blood group" value={value.blood_group} onChange={set('blood_group')}>
         <option value="">All blood groups</option>{BLOOD_GROUPS.map((g) => <option key={g}>{g}</option>)}
       </select>

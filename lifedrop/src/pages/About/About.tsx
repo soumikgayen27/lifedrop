@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { HeartPulse, Eye, Target, Users, HandHeart } from 'lucide-react';
-import { Disclaimer, PageHead } from '../../components/common/ui';
+import { Disclaimer, PageHero } from '../../components/common/ui';
 
 const blocks = [
   { i: Target, t: 'Our mission', d: 'Make it faster and less stressful to reach willing blood donors when a patient needs blood, by keeping donor information current and in one place.' },
@@ -12,18 +12,20 @@ const blocks = [
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
-      <PageHead title="About LifeDrop" subtitle="A community platform that connects people who need blood with registered donors." />
-      <div className="grid gap-3 sm:grid-cols-2">
+    <>
+      <PageHero eyebrow="About us" title="About LifeDrop" subtitle="A community platform that connects people who need blood with registered donors." />
+      <div className="mx-auto max-w-4xl px-4 py-10">
+      <div className="grid gap-5 sm:grid-cols-2">
         {blocks.map(({ i: Icon, t, d }) => (
-          <section key={t} className="card p-4">
-            <div className="mb-2 flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-md bg-brand-soft text-brand"><Icon size={16} /></span><h2 className="font-semibold">{t}</h2></div>
-            <p className="text-sm text-ink/80">{d}</p>
+          <section key={t} className="card card-hover p-6">
+            <div className="mb-3 flex items-center gap-3"><span className="grid h-11 w-11 place-items-center rounded-xl bg-navy-900 text-primary-400"><Icon size={20} /></span><h2 className="font-display text-lg font-bold text-navy-900">{t}</h2></div>
+            <p className="text-sm leading-relaxed text-navy-600">{d}</p>
           </section>
         ))}
       </div>
-      <div className="mt-4 flex flex-wrap gap-2"><Link to="/register" className="btn btn-primary">Become a donor</Link><Link to="/donors" className="btn btn-outline">Find donors</Link></div>
-      <Disclaimer className="mt-5" />
-    </div>
+      <div className="mt-8 flex flex-wrap gap-3"><Link to="/register" className="btn btn-primary">Become a donor</Link><Link to="/donors" className="btn btn-outline">Find donors</Link></div>
+      <Disclaimer className="mt-6" />
+      </div>
+    </>
   );
 }
